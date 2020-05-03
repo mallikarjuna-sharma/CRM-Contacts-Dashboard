@@ -61,8 +61,6 @@ function DisplayContacts(props) {
 
         let tablerow = [];
 
-        console.log('contactDataBase',props.contactDataBase);
-        
         props.getAvailableContacts([]);
 
         if (props.contactDataBase && props.contactDataBase.length)
@@ -75,7 +73,7 @@ function DisplayContacts(props) {
                 }
             })
 
-            props.getAvailableContacts(tablerow);
+        props.getAvailableContacts(tablerow);
 
     }, [props.contactDataBase])
 
@@ -104,24 +102,21 @@ function DisplayContacts(props) {
             val.push(index);
             setvalue(val);
 
-
             const contactTemp = props.selectedContacts.slice();
 
-            console.log(contact.phone,'contact');
-
+            console.log(contact.phone, 'contact');
 
             props.contactDataBase && props.contactDataBase.length &&
-            props.contactDataBase.map((e, index) => {
-                    
-                console.log(e,'contact');
+                props.contactDataBase.map((e, index) => {
 
-                if (props.loggedin && props.loggedin[0] && props.loggedin[0].phone && e[props.loggedin[0].phone]
-                    && e[props.loggedin[0].phone].phone && (e[props.loggedin[0].phone].phone === contact.phone) )
-                     {
-                    contactTemp.push(e);
-                    return;
-                }
-            })
+                    console.log(e, 'contact');
+
+                    if (props.loggedin && props.loggedin[0] && props.loggedin[0].phone && e[props.loggedin[0].phone]
+                        && e[props.loggedin[0].phone].phone && (e[props.loggedin[0].phone].phone === contact.phone)) {
+                        contactTemp.push(e);
+                        return;
+                    }
+                })
             props.getselectedContacts(contactTemp)
         }
         else {
@@ -200,17 +195,16 @@ function DisplayContacts(props) {
         setSelected([]);
     };
 
-    const getRandomColor = () =>  {
+    const getRandomColor = () => {
         var letters = 'BCDEF'.split('');
         var color = '#';
-        for (var i = 0; i < 6; i++ ) {
+        for (var i = 0; i < 6; i++) {
             color += letters[Math.floor(Math.random() * letters.length)];
         }
         return color;
     }
 
     const isSelected = (name) => selected.indexOf(name) !== -1;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, tableContacts.length - page * rowsPerPage);
 
     return (
         <React.Fragment>
@@ -218,7 +212,7 @@ function DisplayContacts(props) {
             {props.tableContacts && props.tableContacts.length &&
                 <div className={classes.root}>
                     <Paper className={classes.paper}>
-                        {(value && value.length)?<EnhancedTableToolbar numSelected={value.length} />:null}
+                        {(value && value.length) ? <EnhancedTableToolbar numSelected={value.length} /> : null}
                         <TableContainer>
                             <Table
                                 className={classes.table}
@@ -254,39 +248,40 @@ function DisplayContacts(props) {
                                                     key={row.name}
                                                     selected={isItemSelected}
                                                 >
-                                                    <TableCell align="left"   padding="checkbox"  style={{borderBottom: "none"}} >
+                                                    <TableCell align="left" padding="checkbox" style={{ borderBottom: "none" }} >
                                                         <Checkbox
                                                             checked={value.indexOf(index) > -1 ? true : false}
                                                             onChange={() => selectedContacts(row, index)}
                                                             inputProps={{ 'aria-labelledby': labelId }}
                                                         />
                                                     </TableCell>
-                                                    <TableCell align="right"  component="th" id={labelId} scope="row" padding="none"  style={{borderBottom: "none"}} >
-                                                        <Grid container justify="flex-start" alignItems="center" direction="row">
-                                                            <Grid item  >
+                                                    <TableCell align="right" id={labelId} scope="row" padding="none" style={{ borderBottom: "none" }} >
+                                                        <Grid container justify="flex-start" alignItems="center" direction="row" style={{ paddingLeft: "25%" }} >
+                                                            <Grid container  >
                                                                 <Paper variant="contained" color="primary" style={{ borderRadius: "50%", width: "45px", height: "45px", backgroundColor: getRandomColor() }}>
-                                                                    <Typography style={{ padding: "25%" }}> {row.name ? row.name.substring(0, 2) : "AA"}</Typography>
+                                                                    <Typography style={{ textAlign: "center", paddingTop: "25%" }}> {row.name ? row.name.substring(0, 2) : "AA"}</Typography>
                                                                 </Paper>
-                                                            </Grid>
-                                                            <Grid item  >
-                                                                <Grid container direction="column">
-                                                                    <Grid item   >
-                                                                        <Typography >
-                                                                            {row.name}
-                                                                        </Typography>
-                                                                    </Grid>
-                                                                    <Grid item   >
-                                                                        <Typography >
-                                                                            {row.gmail}
-                                                                        </Typography>
+
+                                                                <Grid item  >
+                                                                    <Grid container direction="column" justify="flex-start">
+                                                                        <Grid item   >
+                                                                            <Typography >
+                                                                                {row.name}
+                                                                            </Typography>
+                                                                        </Grid>
+                                                                        <Grid item   >
+                                                                            <Typography >
+                                                                                {row.gmail}
+                                                                            </Typography>
+                                                                        </Grid>
                                                                     </Grid>
                                                                 </Grid>
-                                                            </Grid>
-                                                        </Grid>
 
-                                                        {/* {row.name} */}
+                                                            </Grid>
+
+                                                        </Grid>
                                                     </TableCell>
-                                                    <TableCell align="center"  style={{borderBottom: "none"}} >{row.company}</TableCell>
+                                                    <TableCell align="center" style={{ borderBottom: "none" }} >{row.company}</TableCell>
                                                 </TableRow>
                                             );
                                         })}
@@ -344,7 +339,7 @@ function EnhancedTableHead(props) {
     };
 
     return (
-        <TableHead style={{ backgroundColor: "#CBD0D0"}}>
+        <TableHead style={{ backgroundColor: "#CBD0D0" }}>
             <TableRow>
                 <TableCell padding="checkbox">
                     <ListItem>
@@ -437,12 +432,12 @@ const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
         borderBottom: "none",
-            overflowX: "auto"
+        overflowX: "auto"
     },
     paper: {
         width: '100%',
         marginBottom: theme.spacing(2),
-        backgroundColor:"transparent"
+        backgroundColor: "transparent"
     },
     table: {
         minWidth: "10%",

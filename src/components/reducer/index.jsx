@@ -7,7 +7,8 @@ let defaultState = {
     contactDataBase:[],
     addPopup:false,
     selectedContacts:[],
-    tableContacts:[]
+    tableContacts:[],
+    editPopup:false
 }
 export default function performAction(state = defaultState, action) {
     switch (action.type) {
@@ -29,10 +30,10 @@ export default function performAction(state = defaultState, action) {
         //     return Object.assign({}, state, {
         //         getCountryjson: action.getCountryjson
         //     })
-        // case stringConstants.INDIA_DISTRICT_JSON_ACTION:
-        //     return Object.assign({}, state, {
-        //         getIndiaDistrictjson: action.getIndiaDistrictjson
-        //     })
+        case stringConstants.EDIT_POPUP:
+            return Object.assign({}, state, {
+                editPopup: action.editPopup
+            })
         case stringConstants.TABLECONTACTS:
             return Object.assign({}, state, {
                 tableContacts: action.tableContacts

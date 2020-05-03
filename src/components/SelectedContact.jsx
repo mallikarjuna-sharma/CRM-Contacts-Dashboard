@@ -3,7 +3,7 @@ import { Grid, Paper, Typography } from '@material-ui/core';
 
 function SelectedContact(props) {
 
-    const keys = ['Full Name','Email','Phone','Company','Address']
+    const keys = ['Full Name','Email','Phone','Company','Address'];
 
     const getRandomColor = () =>  {
         var letters = 'BCDEF'.split('');
@@ -21,7 +21,7 @@ function SelectedContact(props) {
                     <Grid item md={12} lg={12} sm={12}   >
                         <Paper variant="contained" color="primary"
                             style={{ borderRadius: "50%", width: "65px", height: "65px", backgroundColor: getRandomColor() }}>
-                            <Typography style={{ padding: "34%" }}  >{
+                            <Typography style={{ textAlign: "center",paddingTop: "35%"}}  >{
                             props.selectedContacts.length ?
                             props.selectedContacts[0].substring(0, 2) 
                              : 'AA'}</Typography>

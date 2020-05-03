@@ -222,7 +222,6 @@ function Register(props) {
 }
 
 function mapStateToProps(state) {
-    console.log('state in register', state)
     return {
         loggedin: state.loggedin,
         registered: state.registered,

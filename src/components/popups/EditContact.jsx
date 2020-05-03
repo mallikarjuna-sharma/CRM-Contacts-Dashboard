@@ -12,8 +12,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
-  setRegister, openAddPopup,
-  isLoggedIn,getContactDB
+  setRegister, openAddPopup,getselectedContacts,
+  isLoggedIn,getContactDB,openEditPopup
 } from '../actions/index.jsx';
 import {  Slide } from '@material-ui/core';
 import stringConstants from '../stringConstants.jsx'
@@ -58,15 +58,18 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
- function AddContact(props) {
-  const [name, setname] = React.useState(false);
-  const [phone, setphone] = React.useState(false);
-  const [gmail, setgmail] = React.useState(false);
-  const [company, setcompany] = React.useState(false);
-  const [address, setaddress] = React.useState(false);
-  const [errorfield, seterrorfield] = React.useState(-1);
+ function EditContact(props) {
 
-  
+    const {selectedContacts} = props;
+    
+
+  const [name, setname] = React.useState((props.selectedContacts) ? (props.selectedContacts[0]) : 0 );
+  const [gmail, setgmail] = React.useState((props.selectedContacts) ? (props.selectedContacts[1]) : 0);
+  const [phone, setphone] = React.useState((props.selectedContacts) ? (props.selectedContacts[2]) : 0);
+  const [company, setcompany] = React.useState((props.selectedContacts) ? (props.selectedContacts[3]) : 0);
+  const [address, setaddress] = React.useState((props.selectedContacts) ? (props.selectedContacts[4]) : 0);
+
+  const [errorfield, seterrorfield] = React.useState(-1);
 
 
   const fieldStyles = makeStyles((theme) => ({
@@ -98,15 +101,28 @@ const DialogActions = withStyles((theme) => ({
 
       const key = props.loggedin[0].phone;
       let contactDB = props.contactDataBase.slice();
+
+      let updatedDB = contactDB.filter(e => {
+            if(e[key] 
+                && e[key].phone === selectedContacts[2] 
+                 && e[key].gmail === selectedContacts[1]  ){
+                     return false;
+                 }
+                 return true;   
+      })
+
       let temp = { [key]  :  {name:name,phone:phone,gmail:gmail,company:company,address:address}   }
-      contactDB.push(temp)
-      props.getContactDB(contactDB);
+      updatedDB.push(temp)
+
+      props.getContactDB(updatedDB);
 
       setname('');
       setphone('');
       seterrorfield(-1);
 
-      props.openAddPopup(false);
+      props.openEditPopup(false);
+
+      props.getselectedContacts([]);
 
     }
     else if(!name) seterrorfield(0)
@@ -127,6 +143,19 @@ const DialogActions = withStyles((theme) => ({
     },
   })(Button);
 
+  const getValue  = (index) => {
+
+    switch(index){
+      case 0:{return props.selectedContacts[0]}
+      case 1:{return props.selectedContacts[2]}
+      case 2:{return props.selectedContacts[1]}
+      case 3:{return props.selectedContacts[3]}
+      case 4:{return props.selectedContacts[4]}
+      default: return ''
+    }
+  }
+
+
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -136,22 +165,22 @@ const DialogActions = withStyles((theme) => ({
       {/* TransitionComponent={Transition}  */}
       <Dialog  
       // TransitionComponent={Transition}
-      onClose={() => props.openAddPopup(false)} open={props.addPopup} >
-        <DialogTitle id="customized-dialog-title" onClose={() => props.openAddPopup(false)} style={{background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)'}}>
-          Add Contacts
+      onClose={() =>  props.openEditPopup(false)} open={props.editPopup} >
+        <DialogTitle id="customized-dialog-title" onClose={() => props.openEditPopup(false)} style={{background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)'}}>
+          Edit Contact
         </DialogTitle>
         <DialogContent dividers>
           <Grid container>
             <form className={classes.root} noValidate autoComplete="on">
               {stringConstants.ADDCONSTANTFIELDS.map((ind,index) => <TextField id={ind.id} type={ind.type} error={index === errorfield ? true : 0} key= {index}
-                required label={ind.label}    helperText={index === errorfield ? 'Enter Field value' : ''}  color="primary" onChange={(e) => handleTextFieldChange(e.target.value, ind.id)} />
+            defaultValue= {getValue(index)} required label={ind.label}    helperText={index === errorfield ? 'Enter Field value' : ''}  color="primary" onChange={(e) => handleTextFieldChange(e.target.value, ind.id)} />
               )}
             </form>
           </Grid>
         </DialogContent>
         <DialogActions>
           <StyledButton  onClick={e => handleRegister('login') } >
-            Save changes
+            Update changes
           </StyledButton>
         </DialogActions>
       </Dialog>
@@ -165,15 +194,17 @@ function mapStateToProps(state) {
       loggedin: state.loggedin,
       registered: state.registered,
       contactDataBase:state.contactDataBase,
-      addPopup:state.addPopup
+      addPopup:state.addPopup,
+      editPopup:state.editPopup
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
       setRegister,openAddPopup,
-      isLoggedIn,getContactDB
+      isLoggedIn,getContactDB,
+      openEditPopup,getselectedContacts
   }, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddContact);
+export default connect(mapStateToProps, mapDispatchToProps)(EditContact);

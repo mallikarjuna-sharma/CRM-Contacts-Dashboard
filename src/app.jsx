@@ -11,7 +11,7 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import MenuIcon from '@material-ui/icons/Menu';
-import Hidden from '@material-ui/core/Hidden';
+import {Hidden,Grid} from '@material-ui/core';
 import ContactsDashboard from '../src/components/ContactsDashboard.jsx'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -21,6 +21,7 @@ import {
     setRegister,getselectedContacts,getAvailableContacts,
     isLoggedIn,openAddPopup
 } from './components/actions/index.jsx'
+import { withStyles } from '@material-ui/core/styles';
 import useStyles from '../src/components/styles.jsx'
 
 
@@ -33,18 +34,48 @@ function App(props) {
         props.getAvailableContacts([]);
     }
 
+    const StyledButton = withStyles({
+        root: {
+          background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+          borderRadius: 3,
+          border: 0,
+          color: 'white',
+          height: 48,
+          padding: '0 30px',
+          boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+        },
+        label: {
+          textTransform: 'capitalize',
+        },
+      })(Button);
+
 
     return (
          (props.loggedin.length > 0) ?   <div className={classes.root}>
             <CssBaseline />
             <AppBar position="fixed" color={"default"} className={classes.appBar}>
                 <Toolbar>
-                    <Typography variant="h6" noWrap>
+                <Grid
+      justify="space-between" // Add it here :)
+      container 
+      spacing={24}
+    >
+      <Grid item>
+      <Typography variant="h6" noWrap>
                         Hello ! {props.loggedin[0].name}
                     </Typography>
-                    <Button autoFocus  color="primary" onClick={e => logout() } >
+      </Grid>
+
+      <Grid item>
+      <StyledButton onClick={e => logout() } >
                         Logout
-                     </Button>
+                     </StyledButton>
+        
+      </Grid>
+    </Grid>
+
+                   
+                    
                 </Toolbar>
             </AppBar>
             <Hidden smDown>
@@ -84,7 +115,6 @@ function App(props) {
 
 
 function mapStateToProps(state) {
-    console.log('state in app',state)
     return {
         loggedin: state.loggedin,
         registered: state.registered,

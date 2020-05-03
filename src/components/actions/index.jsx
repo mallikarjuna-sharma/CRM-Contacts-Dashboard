@@ -51,15 +51,13 @@ export function getAvailableContacts(tableContacts) {
     return action
 }
 
-
-
-// export function setSelectedState(selectedState) {
-//     const action = {
-//         type: stringConstants.SELECTEDSTATE,
-//         selectedState
-//     }
-//     return action
-// }
+export function openEditPopup(editPopup) {
+    const action = {
+        type: stringConstants.EDIT_POPUP,
+        editPopup
+    }
+    return action
+}
 
 
 // export function getWorldStats(getWorldStats) {
