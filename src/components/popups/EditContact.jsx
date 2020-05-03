@@ -63,14 +63,23 @@ const DialogActions = withStyles((theme) => ({
     const {selectedContacts} = props;
     
 
-  const [name, setname] = React.useState((props.selectedContacts) ? (props.selectedContacts[0]) : 0 );
-  const [gmail, setgmail] = React.useState((props.selectedContacts) ? (props.selectedContacts[1]) : 0);
-  const [phone, setphone] = React.useState((props.selectedContacts) ? (props.selectedContacts[2]) : 0);
-  const [company, setcompany] = React.useState((props.selectedContacts) ? (props.selectedContacts[3]) : 0);
-  const [address, setaddress] = React.useState((props.selectedContacts) ? (props.selectedContacts[4]) : 0);
+  const [name, setname] = React.useState('');
+  const [gmail, setgmail] = React.useState('');
+  const [phone, setphone] = React.useState('');
+  const [company, setcompany] = React.useState('');
+  const [address, setaddress] = React.useState('');
 
   const [errorfield, seterrorfield] = React.useState(-1);
 
+  React.useEffect(() => {
+
+
+    setname((props.selectedContacts) ? (props.selectedContacts[0]) : 0 )
+    setgmail((props.selectedContacts) ? (props.selectedContacts[1]) : 0)
+    setphone((props.selectedContacts) ? (props.selectedContacts[2]) : 0)
+    setcompany((props.selectedContacts) ? (props.selectedContacts[3]) : 0)
+    setaddress((props.selectedContacts) ? (props.selectedContacts[4]) : 0)
+      },[props.selectedContacts])
 
   const fieldStyles = makeStyles((theme) => ({
     root: {
@@ -97,7 +106,7 @@ const DialogActions = withStyles((theme) => ({
   }
 
   const handleRegister = () => {
-    if (name && phone) {
+    if (name || phone || gmail || company || address) {
 
       const key = props.loggedin[0].phone;
       let contactDB = props.contactDataBase.slice();
@@ -173,7 +182,7 @@ const DialogActions = withStyles((theme) => ({
           <Grid container>
             <form className={classes.root} noValidate autoComplete="on">
               {stringConstants.ADDCONSTANTFIELDS.map((ind,index) => <TextField id={ind.id} type={ind.type} error={index === errorfield ? true : 0} key= {index}
-            defaultValue= {getValue(index)} required label={ind.label}    helperText={index === errorfield ? 'Enter Field value' : ''}  color="primary" onChange={(e) => handleTextFieldChange(e.target.value, ind.id)} />
+            defaultValue= {getValue(index)} required label={ind.label}    helperText={index === errorfield ? 'Change Any Field value' : ''}  color="primary" onChange={(e) => handleTextFieldChange(e.target.value, ind.id)} />
               )}
             </form>
           </Grid>

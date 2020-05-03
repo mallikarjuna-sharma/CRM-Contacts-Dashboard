@@ -56,12 +56,13 @@ function App(props) {
             <AppBar position="fixed" color={"default"} className={classes.appBar}>
                 <Toolbar>
                     <Grid
-                        justify="space-between" // Add it here :)
+                        justify="space-between" 
+                        alignItems='center'
                         container
-                        spacing={24}
+                        spacing={12}
                     >
                         <Grid item>
-                            <Typography variant="h6" noWrap>
+                            <Typography variant="h6" >
                                 Hello ! {props.loggedin[0].name}
                             </Typography>
                         </Grid>
