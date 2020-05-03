@@ -43,12 +43,14 @@ function ContactsDashboard(props) {
             if(props.loggedin && props.loggedin[0] && props.loggedin[0].phone && e[props.loggedin[0].phone]
                 ){
                     const phoneDB = e[props.loggedin[0].phone].phone ;
+                    const nameDB = e[props.loggedin[0].phone].name ;
                   
                     let res = true;
                     props.selectedContacts.map(select => {
                         const selectedPhone = select[props.loggedin[0].phone].phone 
-                  
-                        if(select && (selectedPhone === phoneDB)  ){
+                        const selectedName = select[props.loggedin[0].phone].name 
+
+                        if(select && (selectedPhone === phoneDB) && (nameDB === selectedName)   ){
                             res = false;
                             return 1;
                         }

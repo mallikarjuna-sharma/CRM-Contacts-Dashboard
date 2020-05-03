@@ -112,7 +112,9 @@ function DisplayContacts(props) {
                     console.log(e, 'contact');
 
                     if (props.loggedin && props.loggedin[0] && props.loggedin[0].phone && e[props.loggedin[0].phone]
-                        && e[props.loggedin[0].phone].phone && (e[props.loggedin[0].phone].phone === contact.phone)) {
+                        && e[props.loggedin[0].phone].phone 
+                        && (e[props.loggedin[0].phone].phone === contact.phone)
+                        && (e[props.loggedin[0].phone].name === contact.name)) {
                         contactTemp.push(e);
                         return;
                     }
