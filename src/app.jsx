@@ -23,7 +23,7 @@ import {
 } from './components/actions/index.jsx'
 import { withStyles } from '@material-ui/core/styles';
 import useStyles from '../src/components/styles.jsx'
-
+import './app.css'
 
 function App(props) {
     const classes = useStyles();
@@ -56,27 +56,30 @@ function App(props) {
             <AppBar position="fixed" color={"default"} className={classes.appBar}>
                 <Toolbar>
                     <Grid
-                        justify="space-between" 
+                        justify="flex-end"
                         alignItems='center'
                         container
-                        spacing={12}
+                        spacing={10}
                     >
-                        <Grid item>
-                            <Typography variant="h6" >
+                        <Grid item >
+                            {/* <Typography variant="h6" >
                                 Hello ! {props.loggedin[0].name}
-                            </Typography>
+                            </Typography> */}
+                            <p className="header" > Hello ! {props.loggedin[0].name}</p>
                         </Grid>
-
+                    </Grid>
+                    <Grid
+                        justify="flex-end"
+                        alignItems='center'
+                        container
+                        spacing={10}
+                    >
                         <Grid item>
                             <StyledButton onClick={e => logout()} >
                                 Logout
                      </StyledButton>
-
                         </Grid>
                     </Grid>
-
-
-
                 </Toolbar>
             </AppBar>
             <Hidden smDown>

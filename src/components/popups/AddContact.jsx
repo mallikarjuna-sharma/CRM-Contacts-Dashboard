@@ -59,11 +59,11 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
  function AddContact(props) {
-  const [name, setname] = React.useState(false);
-  const [phone, setphone] = React.useState(false);
-  const [gmail, setgmail] = React.useState(false);
-  const [company, setcompany] = React.useState(false);
-  const [address, setaddress] = React.useState(false);
+  const [name, setname] = React.useState('');
+  const [phone, setphone] = React.useState('');
+  const [gmail, setgmail] = React.useState(' ');
+  const [company, setcompany] = React.useState(' ');
+  const [address, setaddress] = React.useState(' ');
   const [errorfield, seterrorfield] = React.useState(-1);
 
   

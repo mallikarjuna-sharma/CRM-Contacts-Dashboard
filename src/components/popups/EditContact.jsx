@@ -74,11 +74,11 @@ const DialogActions = withStyles((theme) => ({
   React.useEffect(() => {
 
 
-    setname((props.selectedContacts) ? (props.selectedContacts[0]) : 0 )
-    setgmail((props.selectedContacts) ? (props.selectedContacts[1]) : 0)
-    setphone((props.selectedContacts) ? (props.selectedContacts[2]) : 0)
-    setcompany((props.selectedContacts) ? (props.selectedContacts[3]) : 0)
-    setaddress((props.selectedContacts) ? (props.selectedContacts[4]) : 0)
+    setname((props.selectedContacts) ? (props.selectedContacts[0]) : ' ' )
+    setgmail((props.selectedContacts) ? (props.selectedContacts[1]) :  ' ')
+    setphone((props.selectedContacts) ? (props.selectedContacts[2]) : ' ')
+    setcompany((props.selectedContacts) ? (props.selectedContacts[3]) : ' ')
+    setaddress((props.selectedContacts) ? (props.selectedContacts[4]) : ' ')
       },[props.selectedContacts])
 
   const fieldStyles = makeStyles((theme) => ({
