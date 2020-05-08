@@ -55,14 +55,14 @@ const DialogActions = withStyles((theme) => ({
 
 function Register(props) {
 
-    const [open, setOpen] = React.useState(false);
-    const [name, setname] = React.useState(false);
-    const [phone, setphone] = React.useState(false);
-    const [password, setpassword] = React.useState(false);
-    const [confirmpassword, setconfirmpassword] = React.useState(false);
-    const [gmail, setgmail] = React.useState(false);
-    const [company, setcompany] = React.useState(false);
-    const [address, setaddress] = React.useState(false);
+    const [open, setOpen] = React.useState( ' ');
+    const [name, setname] = React.useState( ' ');
+    const [phone, setphone] = React.useState( ' ');
+    const [password, setpassword] = React.useState( ' ');
+    const [confirmpassword, setconfirmpassword] = React.useState( ' ');
+    const [gmail, setgmail] = React.useState( ' ');
+    const [company, setcompany] = React.useState( ' ');
+    const [address, setaddress] = React.useState( ' ');
     const [errorfield, seterrorfield] = React.useState(-1);
     const [login, setlogin] = React.useState(false);
 
@@ -86,7 +86,18 @@ function Register(props) {
     }
 
     const handleRegister = (type) => {
-        if (name && phone && (type == 'register')) {
+
+        if (!name || name.length < 4)
+            seterrorfield(0)
+        else if (!phone || phone.length < 4)
+            seterrorfield(1)
+        else if (!gmail || gmail.length < 4)
+            seterrorfield(4)
+        else if (!company || company.length < 4)
+            seterrorfield(5)
+        else if (!address || address.length < 4)
+            seterrorfield(6)
+        else if (name && phone && (type == 'register')) {
             let getRegister = props.registered;
             var error = false;
             getRegister.forEach(e => {
@@ -175,12 +186,78 @@ function Register(props) {
         return <Slide direction="up" ref={ref} {...props} />;
     });
     // TransitionComponent={Transition}
+
+
+    const resetFields = () => {
+
+        setname('')
+        setphone('')
+        setpassword('')
+        setconfirmpassword('')
+        setgmail('')
+        setcompany('')
+        setaddress('')
+        seterrorfield('')
+
+    }
+
+    const getValue = (type,index) => {
+
+        if(type === 'register')
+            switch(index){
+                case "0":{
+                    return name
+                }
+                case "1":{
+                    return phone
+                }
+                case "2":{
+                    return password
+                }
+                case "3":{
+                    return confirmpassword
+                }
+                case "4":{
+                    return gmail
+                }
+                case "5":{
+                    return company
+                }
+                case "5":{
+                    return address
+                }
+            }
+        else
+        switch(index){
+            case "0":{
+                return name
+            }
+            case "1":{
+                return password
+            }
+        }
+            
+
+    }
+
+    const getErrorMsg = () => {
+        switch(errorfield){
+            case '1':return 'Already Registered !'
+            case '2':return 'Enter Valid Number !'
+            case '3':return
+            case '4':return
+            case '5':return
+            case '6':return
+        }
+    }
+
+
     return (
         <div>
             <Dialog 
                 aria-labelledby="customized-dialog-title" open={open}>
                 <DialogTitle id="customized-dialog-title" style={{ background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)' }} >
-                    Register Yourself !
+                    {!login ? 'Register' : 'Login'}       Yourself !
              </DialogTitle>
 
                 <DialogContent dividers>
@@ -188,10 +265,12 @@ function Register(props) {
                     <form className={classes.rootregister}>
 
                         {!login ? stringConstants.REGISTERFIELDS.map((ind, index) => <TextField key={index} id={ind.id} type={ind.type} error={index === errorfield ? true : 0}
-                            helperText={index === errorfield ? 'Already Registered !' : ''} required label={ind.label} color="primary" onChange={(e) => handleTextFieldChange(e.target.value, ind.id)} />
+                            helperText={index === errorfield ? getErrorMsg() : ''} required label={ind.label} color="primary" onChange={(e) => handleTextFieldChange(e.target.value, ind.id)} 
+                            value = {getValue('register',index)} />
                         ) :
                             stringConstants.LOGINFIELDS.map((ind, index) => <TextField key={index} id={ind.id} type={ind.type} error={index === errorfield ? true : 0}
-                                helperText={index === errorfield ? 'Username or Password is Wrong' : ''} required label={ind.label} color="primary" onChange={(e) => handleTextFieldChange(e.target.value, ind.id)} />
+                                helperText={index === errorfield ? 'Username or Password is Wrong' : ''} required label={ind.label} color="primary" onChange={(e) => handleTextFieldChange(e.target.value, ind.id)} 
+                                value =  {getValue('login',index)} />
                             )
 
                         }
@@ -201,13 +280,13 @@ function Register(props) {
 
                     <Grid container>
                         <Grid item md={6} lg={6} sm={6} xs={6} >
-                            <StyledButton onClick={() => { setlogin(false); handleRegister('register') }} color="primary">
+                            <StyledButton onClick={() => { resetFields(); setlogin(false);  handleRegister('register'); }} color="primary">
                                 Register
                      </StyledButton>
                         </Grid>
                         <Grid item md={6} lg={6} sm={6} xs={6} >
                             <Grid container justify="flex-end" alignContent="center" >
-                                <StyledButton color="primary" onClick={e => { setlogin(true); handleRegister('login') }}>
+                                <StyledButton color="primary" onClick={e => { resetFields(); setlogin(true);  handleRegister('login') ;}}>
                                     {!login ? 'Existing user' : ''}  Login
                              </StyledButton>
                             </Grid>
