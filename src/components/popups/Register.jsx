@@ -117,6 +117,7 @@ function Register(props) {
                     'company': company,
                     'address': address
                 };
+               
                 getRegister.push(arr);
                 props.setRegister(getRegister)
                 let a = [];
@@ -124,7 +125,7 @@ function Register(props) {
                 props.isLoggedIn(a)
             }
         }
-        else if (name && (type == 'login')) {
+        if (name && (type == 'login')) {
 
             let getRegister = props.registered;
             var error = true;
@@ -162,7 +163,7 @@ function Register(props) {
 
             }
             else {
-                seterrorfield(1)
+                seterrorfield(0)
             }
         }
     }
@@ -182,24 +183,7 @@ function Register(props) {
         },
     })(Button);
 
-    const Transition = React.forwardRef(function Transition(props, ref) {
-        return <Slide direction="up" ref={ref} {...props} />;
-    });
-    // TransitionComponent={Transition}
 
-
-    const resetFields = () => {
-
-        setname('')
-        setphone('')
-        setpassword('')
-        setconfirmpassword('')
-        setgmail('')
-        setcompany('')
-        setaddress('')
-        seterrorfield('')
-
-    }
 
     const getValue = (type,index) => {
 
@@ -242,12 +226,13 @@ function Register(props) {
 
     const getErrorMsg = () => {
         switch(errorfield){
-            case '1':return 'Already Registered !'
-            case '2':return 'Enter Valid Number !'
-            case '3':return
-            case '4':return
-            case '5':return
-            case '6':return
+            case  0 :return 'Enter Valid Name !'
+            case  1 :return 'Enter Valid Number !'
+            case  2 :return 'Enter Valid Password !'
+            case  3 :return 'Enter Same Password !'
+            case  4 :return 'Enter Valid Email'
+            case  5 :return 'Enter Valid Company'
+            case  6 :return 'Enter Valid Address'
         }
     }
 
@@ -265,7 +250,7 @@ function Register(props) {
                     <form className={classes.rootregister}>
 
                         {!login ? stringConstants.REGISTERFIELDS.map((ind, index) => <TextField key={index} id={ind.id} type={ind.type} error={index === errorfield ? true : 0}
-                            helperText={index === errorfield ? getErrorMsg() : ''} required label={ind.label} color="primary" onChange={(e) => handleTextFieldChange(e.target.value, ind.id)} 
+                            helperText={ (index === errorfield) ? getErrorMsg() : ''} required label={ind.label} color="primary" onChange={(e) => handleTextFieldChange(e.target.value, ind.id)} 
                             value = {getValue('register',index)} />
                         ) :
                             stringConstants.LOGINFIELDS.map((ind, index) => <TextField key={index} id={ind.id} type={ind.type} error={index === errorfield ? true : 0}
@@ -280,13 +265,13 @@ function Register(props) {
 
                     <Grid container>
                         <Grid item md={6} lg={6} sm={6} xs={6} >
-                            <StyledButton onClick={() => { resetFields(); setlogin(false);  handleRegister('register'); }} color="primary">
+                            <StyledButton onClick={() => { setlogin(false);  handleRegister('register'); }} color="primary">
                                 Register
                      </StyledButton>
                         </Grid>
                         <Grid item md={6} lg={6} sm={6} xs={6} >
                             <Grid container justify="flex-end" alignContent="center" >
-                                <StyledButton color="primary" onClick={e => { resetFields(); setlogin(true);  handleRegister('login') ;}}>
+                                <StyledButton color="primary" onClick={e => {  setlogin(true);  handleRegister('login') ;}}>
                                     {!login ? 'Existing user' : ''}  Login
                              </StyledButton>
                             </Grid>

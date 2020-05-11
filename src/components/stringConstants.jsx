@@ -42,7 +42,7 @@ const stringConstants = {
         type:'password'
     },{
         id:'Gmail',
-        label:'Gmail',
+        label:'Email',
         type:'email'
     },{
         id:'Company Name',
